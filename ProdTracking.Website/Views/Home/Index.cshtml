@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "Achievement Ratio";
+    ViewBag.ProgName = "The measurement system provides a means to check progress toward an objective. In addition, it can be a major part of the employee's performance evaluation leading to rewards or disciplinary action.";
+}
+<style>
+    table {
+        text-align: center;
+        border-collapse: collapse; overflow: hidden;
+    }
+
+    thead, tr, tbody, th, td, th {
+        text-align: center;
+    }
+.hiddenRow {
+    padding: 0 4px !important;
+    background-color: #ff6a00;
+    font-size: 15px;
+    font-weight:bold;
+    font-style:italic;
+    color:white;
+}
+</style>
+
+<div class="row" style="margin-top:10px;">
+    <div class="input-group">
+        @Html.DropDownList("LINE", new SelectList(ViewBag.Plant, "VALUE", "TEXT"), new { @class = "form-control", @style = "width:100%", onchange = "fw_dropChange(this.value)" })
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" id="btnSearch" onclick="fw_search($('#LINE').val())">Search</button> <!---->
+        </span>
+    </div>
+    <p>
+        <div class="alert alert-success animate__animated animate__bounceIn" id="divProcessing">
+            <i><strong>Please wait! </strong><img src="~/Content/images/spin.gif" /> Processing data. . .</i>
+        </div>
+    </p>
+    @*<div class="col-xs-12">*@
+        <hr>
+        <div class="table-responsive">
+            <table id="tbl" class="table table-bordered">
+                <thead>
+                    <tr class="head">
+                        <th scope="col" style="width:40px;">Plant</th>
+                        <th scope="col" style="width:40px;">Line</th>
+                        <th scope="col">D.Plan</th>
+                        <th scope="col">R.Plan</th>
+                        <th scope="col">Actual</th>
+                        <th scope="col">Ratio(%)</th>
+                        @*<th scope="col">Reason</th>*@
+                    </tr>
+                </thead>
+                <tbody id="data">
+            </table>
+        </div>
+    @*</div>*@
+</div>
+<hr />
+<script>
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    $(document).ready(function () {
+        //Hide the "busy" Gif at load:
+        $("#divProcessing").hide();
+        // console.log();
+        if (getCookie("PLANT_CODE") != '999' && getCookie("PLANT_CODE") != '') {
+            $("#LINE").val(getCookie("PLANT_CODE"));
+            fw_search(getCookie("PLANT_CODE"));
+        }
+        else {
+            $("#LINE").val("999");
+            fw_search("999");
+        }
+    });
+    function fw_search(PlantCode) {
+        console.log(PlantCode);
+        $("#divProcessing").show();
+        var condition = { "PlantCode": PlantCode };
+        $.getJSON("/Home/ProdListModelRead", condition, function (data) {
+            console.log(data);
+
+            $("#tbl tbody tr").remove();
+            var tr, vPlant;
+            for (var i = 0; i < data.length; i++) {
+
+                if (data[i].PLANT === 'TOTAL') {
+                    tr = $('<tr class = "TOTAL animate__animated animate__slideInUp"/>');
+                    tr.append("<td colspan = '2' style='vertical-align : middle;text-align:center;'>" + data[i].PLANT + "</td>");
+                }
+                else {
+                    tr = $('<tr class = "accordion-toggle animate__animated animate__fadeInDown" data-toggle="collapse" data-target="#demo'+i+'"  />');
+                    tr.append("<td style='vertical-align : middle;text-align:center;'>" + data[i].PLANT + "</td>");
+                    tr.append("<td>" + data[i].MLINE + " </td>");
+                }
+                tr.append("<td>" + data[i].TARGET + " </td>");
+                tr.append("<td>" + data[i].RPLAN + " </td>");
+                tr.append("<td>" + data[i].ACT + " </td>");
+
+                if (data[i].RATIO != null)
+                    tr.append("<td class='" + data[i].STYLESHEET + "'>" + data[i].RATIO + " </td>");
+                else
+                    tr.append("<td class='" + data[i].STYLESHEET + "'>0</td>");
+
+                $('#tbl').append(tr);
+
+                tr1 = $("<tr/>");
+                tr1.append("<td>" + data[i].PLANT + "</td>");
+                tr1.append("<td colspan='5' class = 'hiddenRow'><div id='demo" + i + "'  class='accordian-body collapse'>" + data[i].REASON_NM + "</div></td>");
+                $('#tbl').append(tr1);
+            };
+
+             mergeCommonCells($("#tbl"), 1);
+            $("#divProcessing").hide();
+        });
+    }
+    $('.accordian-body').on('show.bs.collapse', function () {
+        $(this).closest("table")
+            .find(".collapse.in")
+            .not(this)
+            .collapse('toggle')
+    })
+    //merge columns
+    function mergeCommonCells(table, columnIndexToMerge) {
+        previous = null;
+        cellToExtend = null;
+        table.find("td:nth-child(" + columnIndexToMerge + ")").each(function () {
+            jthis = $(this);
+            content = jthis.text();
+            if (previous == content) {
+                jthis.remove();
+                if (cellToExtend.attr("rowspan") == undefined) {
+                    cellToExtend.attr("rowspan", 2);
+                }
+                else {
+                    currentrowspan = parseInt(cellToExtend.attr("rowspan"));
+                    cellToExtend.attr("rowspan", currentrowspan + 1);
+                }
+            }
+            else {
+                previous = content;
+                cellToExtend = jthis;
+            }
+        });
+    };
+    function fw_dropChange(plantCode) {
+        fw_search(plantCode);
+    }
+</script>
+

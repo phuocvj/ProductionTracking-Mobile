@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
+<style>
+    .navbar-brand{
+    background: url("../../Content/images/logo.png") no-repeat;
+    background-size: auto 40px;
+    height:40px;
+    margin:5px;
+    width:150px;
+}
+    .navbar{
+ -webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0 8px 6px -6px #999;
+    z-index:999;
+}
+
+</style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-header">
+                @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>*@
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand"> </a>
+                <!-- partial:index.partial.html -->
+                <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
+                <!-- partial -->
+                @*@Html.ActionLink("ACHIEVEMENT RATIO", "Index", "Home", new { area = "" }, new { @class = "navbar-brand glyphicon glyphicon-log-in" })*@
+            </div>
+                <div class='content'>
+                    <div class='visible'>
+                        <p>
+                            Productivity
+                        </p>
+                        <ul>
+                            <li>Achievement!</li>
+                            <li>Ratio!</li>
+                            <li>Ranking!</li>
+                        </ul>
+                    </div>
+              </div> 
+            @*<div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>*@
+        
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Productivity Achievement Ratio</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
