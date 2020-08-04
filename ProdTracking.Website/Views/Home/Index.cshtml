@@ -13,11 +13,16 @@
     }
 .hiddenRow {
     padding: 0 4px !important;
-    background-color: #ff6a00;
+    background-color: black;
     font-size: 15px;
     font-weight:bold;
     font-style:italic;
     color:white;
+}
+.badge {
+  border-radius: 10%;
+  background-color: #808080;
+  color: white;
 }
 </style>
 
@@ -28,6 +33,7 @@
             <button class="btn btn-primary" type="button" id="btnSearch" onclick="fw_search($('#LINE').val())">Search</button> <!---->
         </span>
     </div>
+    
     <p>
         <div class="alert alert-success animate__animated animate__bounceIn" id="divProcessing">
             <i><strong>Please wait! </strong><img src="~/Content/images/spin.gif" /> Processing data. . .</i>
@@ -96,11 +102,11 @@
 
                 if (data[i].PLANT === 'TOTAL') {
                     tr = $('<tr class = "TOTAL animate__animated animate__slideInUp"/>');
-                    tr.append("<td colspan = '2' style='vertical-align : middle;text-align:center;'>" + data[i].PLANT + "</td>");
+                    tr.append("<td  colspan = '2' style='vertical-align : middle;text-align:center;'>" + data[i].PLANT + "</td>");
                 }
                 else {
                     tr = $('<tr class = "accordion-toggle animate__animated animate__fadeInDown" data-toggle="collapse" data-target="#demo'+i+'"  />');
-                    tr.append("<td style='vertical-align : middle;text-align:center;'>" + data[i].PLANT + "</td>");
+                    tr.append("<td style='vertical-align : middle;text-align:center;'><span class='badge'>" + data[i].PLANT + "</span></td>");
                     tr.append("<td>" + data[i].MLINE + " </td>");
                 }
                 tr.append("<td>" + data[i].TARGET + " </td>");
@@ -115,7 +121,7 @@
                 $('#tbl').append(tr);
 
                 tr1 = $("<tr/>");
-                tr1.append("<td>" + data[i].PLANT + "</td>");
+                tr1.append("<td><span class='badge'>" + data[i].PLANT + "</span></td>");
                 tr1.append("<td colspan='5' class = 'hiddenRow'><div id='demo" + i + "'  class='accordian-body collapse'>" + data[i].REASON_NM + "</div></td>");
                 $('#tbl').append(tr1);
             };
@@ -156,5 +162,33 @@
     function fw_dropChange(plantCode) {
         fw_search(plantCode);
     }
+    function toggleFullscreen(elem) {
+        elem = elem || document.documentElement;
+        if (!document.fullscreenElement && !document.mozFullScreenElement &&
+          !document.webkitFullscreenElement && !document.msFullscreenElement) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+    }
+    document.getElementById('btnFullscreen').addEventListener('click', function () {
+        toggleFullscreen();
+    });
 </script>
 
