@@ -16,6 +16,7 @@ namespace ProdTracking.Models.Home
         public string ACT { get; set; }
         public string RATIO { get; set; }
         public string STYLESHEET { get; set; }
+        public string STYLESHEET_RS { get; set; }
         public string REASON_NM { get; set; }
     }
 }

@@ -24,6 +24,16 @@
   background-color: #808080;
   color: white;
 }
+.RS_N {
+  color: black;
+}
+.RS_Y {
+ 
+  animation-name: red_yellow;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+}
+
 </style>
 
 <div class="row" style="margin-top:10px;">
@@ -107,7 +117,7 @@
                 else {
                     tr = $('<tr class = "accordion-toggle animate__animated animate__fadeInDown" data-toggle="collapse" data-target="#demo'+i+'"  />');
                     tr.append("<td style='vertical-align : middle;text-align:center;'><span class='badge'>" + data[i].PLANT + "</span></td>");
-                    tr.append("<td>" + data[i].MLINE + " </td>");
+                    tr.append("<td class='" + data[i].STYLESHEET_RS + "'>" + data[i].MLINE + " </td>");
                 }
                 tr.append("<td>" + data[i].TARGET + " </td>");
                 tr.append("<td>" + data[i].RPLAN + " </td>");

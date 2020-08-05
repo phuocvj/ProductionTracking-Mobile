@@ -57,7 +57,7 @@ td.TY {
 }
 
 td.TG {
-    /*background:white;*/
+    
     color: #008000;
     padding: 0;
     font-weight: bold;
@@ -77,6 +77,8 @@ tr.TOTAL {
     padding: 0;
 }
 
+
+
 tr.reason {
     font-weight: bold;
     background: #16a085;
@@ -91,6 +93,23 @@ td.reason {
     background: #f1f1f1;
     color: black;
     padding: 0;
+}
+@keyframes green {
+  0%   {background-color:#008000; color:white;}
+  25%  {background-color:#50fb50; color:black;}
+  50%  {background-color:#03ff2e; color:black;}
+  75%  {background-color:#1e9019; color:white;}
+  100% {background-color:green; color:white;}
+}
+
+@keyframes red_yellow {
+    /*from {background-color: yellow;color:black;}
+  to {background-color: gray;color:white;}*/
+  0%   {background-color: yellow;color:black;}
+  25%  {background-color: gray;color:white;}
+  50%  {background-color: yellow;color:black;}
+  75%  {background-color: gray;color:white;}
+  100% {background-color: yellow;color:black;}
 }
 
 .content {
