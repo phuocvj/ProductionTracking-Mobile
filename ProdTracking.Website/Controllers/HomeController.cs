@@ -37,7 +37,8 @@ namespace ProdTracking.Website.Controllers
                     Text = "Factory View"
                 }
             };
-
+            
+            ViewBag.UserIP = Request.UserHostAddress;
             ViewBag.FacType = facTypeList;
             ViewBag.Plant = _CommonServices.GetPlantList("Q");
             return View();
